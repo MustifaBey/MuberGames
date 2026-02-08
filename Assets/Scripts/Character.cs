@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
@@ -27,11 +28,18 @@ public class Character : MonoBehaviour
 
     void HandleInput()
     {
-        // Mouse sağ tık (1) basılı tutulursa veya tıklanırsa
-        if (Input.GetMouseButton(1))
+        // Mouse referansını al
+        Mouse mouse = Mouse.current;
+        if (mouse == null) return;
+
+        // Mouse sağ tık basılı tutulursa veya tıklanırsa (Input System)
+        if (mouse.rightButton.isPressed)
         {
+            // Mouse pozisyonunu al
+            Vector2 mouseScreenPos = mouse.position.ReadValue();
+
             // Mouse pozisyonunu dünya koordinatlarına çevir
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
 
             // Z eksenini sıfırla (2D oyun için)
             mousePos.z = 0;
